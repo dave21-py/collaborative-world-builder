@@ -42,17 +42,31 @@ export default function Home() {
         <div className="flex flex-col gap-y-2">
           <h3 className="text-lg font-semibold text-gray-300">Characters</h3>
           <ul className="pl-4 text-gray-400">
-            <li className="cursor-pointer hover:text-white">Elara, the Sun-Priestess</li>
-            <li className="cursor-pointer hover:text-white">Grak, the Stone-Hearted</li>
-          </ul>
+  {worldData.characters.map((char) => (
+    <li
+    key={char.name}
+    className={`cursor-pointer hover:text-white ${selectedItem.name === char.name ? 'text-white font-bold' : ''}`}
+    onClick={() => setSelectedItem(char)}
+  >
+    {char.name}
+  </li>
+  ))}
+</ul>
         </div>
 
         <div className="flex flex-col gap-y-2">
           <h3 className="text-lg font-semibold text-gray-300">Locations</h3>
           <ul className="pl-4 text-gray-400">
-            <li className="cursor-pointer hover:text-white">The Sunken City of Aeridor</li>
-            <li className="cursor-pointer hover:text-white">Crystal Spire Mountains</li>
-          </ul>
+  {worldData.locations.map((loc) => (
+    <li
+    key={loc.name}
+    className={`cursor-pointer hover:text-white ${selectedItem.name === loc.name ? 'text-white font-bold' : ''}`}
+    onClick={() => setSelectedItem(loc)}
+  >
+    {loc.name}
+  </li>
+  ))}
+</ul>
         </div>
       </div>
 
@@ -63,14 +77,14 @@ export default function Home() {
         </div>
 
         <div>
-          <h1 className="text-5xl font-bold text-white">Elara, the Sun-Priestess</h1>
-          <p className="mt-4 text-lg text-gray-300">
-            Elara is the high priestess of the Sun Temple, located in the heart of the Crystal Spire Mountains. She is known for her calm demeanor and her powerful connection to the sun's energy, allowing her to perform healing miracles.
-          </p>
-          <p className="mt-2 text-md text-gray-400">
-            Her staff is said to contain a fragment of a fallen star, which glows with a warm light even in the darkest of nights.
-          </p>
-        </div>
+  <h1 className="text-5xl font-bold text-white">{selectedItem.name}</h1>
+  <p className="mt-4 text-lg text-gray-300">
+    {selectedItem.description}
+  </p>
+  <p className="mt-2 text-md text-gray-400">
+    {selectedItem.extra}
+  </p>
+</div>
       </div>
     </div>
   );
