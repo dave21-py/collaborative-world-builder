@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { generateText, generateImage } from '@/lib/ai';
-import { motion } from 'framer-motion'; // <-- Import Framer Motion
+import { motion } from 'framer-motion';
 
 // Type definition for our world items
 type WorldItem = {
@@ -75,9 +75,17 @@ export default function Home() {
           <h3 className="text-lg font-semibold text-gray-300">Characters</h3>
           <ul className="pl-4 text-gray-400">
             {world.characters.map((char) => (
-              <li key={char.name} className={`cursor-pointer hover:text-white ${selectedItem?.name === char.name ? 'text-white font-bold' : ''}`} onClick={() => setSelectedItem(char)}>
+              // --- UPDATED to motion.li ---
+              <motion.li
+                key={char.name}
+                className={`cursor-pointer hover:text-white ${selectedItem?.name === char.name ? 'text-white font-bold' : ''}`}
+                onClick={() => setSelectedItem(char)}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 {char.name}
-              </li>
+              </motion.li>
             ))}
           </ul>
         </div>
@@ -85,15 +93,23 @@ export default function Home() {
           <h3 className="text-lg font-semibold text-gray-300">Locations</h3>
           <ul className="pl-4 text-gray-400">
             {world.locations.map((loc) => (
-              <li key={loc.name} className={`cursor-pointer hover:text-white ${selectedItem?.name === loc.name ? 'text-white font-bold' : ''}`} onClick={() => setSelectedItem(loc)}>
+              // --- UPDATED to motion.li ---
+              <motion.li
+                key={loc.name}
+                className={`cursor-pointer hover:text-white ${selectedItem?.name === loc.name ? 'text-white font-bold' : ''}`}
+                onClick={() => setSelectedItem(loc)}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 {loc.name}
-              </li>
+              </motion.li>
             ))}
           </ul>
         </div>
       </div>
 
-      {/* --- Right Main Content with Animation --- */}
+      {/* Right Main Content */}
       <motion.div
         key={selectedItem ? selectedItem.name : 'empty'}
         className="w-3/4 p-8 overflow-y-auto"
@@ -101,7 +117,7 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {selectedItem && ( // Only render if an item is selected
+        {selectedItem && (
           <>
             <div className="w-full h-80 bg-gray-800 rounded-lg flex items-center justify-center mb-6 overflow-hidden">
               {selectedItem.imageUrl ? (
