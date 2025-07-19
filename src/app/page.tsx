@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { generateText, generateImage } from '@/lib/ai';
 import { motion } from 'framer-motion';
+import ShaderImage from '@/components/ShaderImage'; // <-- Import the WebGL component
 
 // Type definition for our world items
 type WorldItem = {
@@ -27,12 +28,13 @@ export default function Home() {
         imageUrl: null
       }
     ],
+    // --- CORRECTED: Ensures locations have the same 'shape' as characters ---
     locations: [
       { 
         name: 'The Sunken City of Aeridor',
         description: 'An ancient city lost to the depths of the ocean...',
         extra: 'Only accessible during a solar eclipse.',
-        imageUrl: null
+        imageUrl: null 
       },
     ]
   });
@@ -75,7 +77,7 @@ export default function Home() {
           <h3 className="text-lg font-semibold text-gray-300">Characters</h3>
           <ul className="pl-4 text-gray-400">
             {world.characters.map((char) => (
-              // --- UPDATED to motion.li ---
+              // --- CORRECTED: Full, non-truncated motion.li ---
               <motion.li
                 key={char.name}
                 className={`cursor-pointer hover:text-white ${selectedItem?.name === char.name ? 'text-white font-bold' : ''}`}
@@ -93,7 +95,7 @@ export default function Home() {
           <h3 className="text-lg font-semibold text-gray-300">Locations</h3>
           <ul className="pl-4 text-gray-400">
             {world.locations.map((loc) => (
-              // --- UPDATED to motion.li ---
+              // --- CORRECTED: Full, non-truncated motion.li ---
               <motion.li
                 key={loc.name}
                 className={`cursor-pointer hover:text-white ${selectedItem?.name === loc.name ? 'text-white font-bold' : ''}`}
@@ -119,19 +121,14 @@ export default function Home() {
       >
         {selectedItem && (
           <>
-            <div className="w-full h-80 bg-gray-800 rounded-lg flex items-center justify-center mb-6 overflow-hidden">
+            {/* --- UPDATED to use the new ShaderImage component --- */}
+            <div className="w-full h-80 bg-gray-800 rounded-lg mb-6 overflow-hidden">
               {selectedItem.imageUrl ? (
-                <motion.img 
-                  key={selectedItem.imageUrl}
-                  src={selectedItem.imageUrl} 
-                  alt={selectedItem.name} 
-                  className="w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                />
+                <ShaderImage key={selectedItem.imageUrl} src={selectedItem.imageUrl} />
               ) : (
-                <p className="text-gray-500">No Image Generated</p>
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-gray-500">No Image Generated</p>
+                </div>
               )}
             </div>
             <div>
